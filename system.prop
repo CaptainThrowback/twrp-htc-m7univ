@@ -1,3 +1,9 @@
 #
 # system.prop for m7univ
 #
+# due to TARGET_UNIFIED_DEVICE := true
+# i'm sticking it here, since it's not 
+# in the init_m7univ.c
+# 
+ro.product.model=One
+
