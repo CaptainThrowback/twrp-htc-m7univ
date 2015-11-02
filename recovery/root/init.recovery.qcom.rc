@@ -12,9 +12,20 @@ on boot
     write /sys/devices/system/cpu/cpu1/cpufreq/scaling_min_freq 384000
     write /sys/devices/system/cpu/cpu2/cpufreq/scaling_min_freq 384000
     write /sys/devices/system/cpu/cpu3/cpufreq/scaling_min_freq 384000
+
+#Disable those for MTP on entering recovery to work (otherwise only adb will work)
+#  remember to check twrp.cpp if the MTP on startup section isnt disabled
+
+#  disabling will re-enable default Google/Nexus Vendor/Prodcut
+#    write /sys/class/android_usb/android0/enable 0
+#    write /sys/class/android_usb/android0/idVendor 0bb4
+#    write /sys/class/android_usb/android0/idProduct 0c02
+
+# or use these for HTC Vendor/Product (mtp+adb)
     write /sys/class/android_usb/android0/enable 0
     write /sys/class/android_usb/android0/idVendor 0bb4
-    write /sys/class/android_usb/android0/idProduct 0c02
+    write /sys/class/android_usb/android0/idProduct 0f87
+
     setprop usb.vendor 0bb4
     setprop usb.product.adb 0c02
     setprop usb.product.mtpadb 0f87
