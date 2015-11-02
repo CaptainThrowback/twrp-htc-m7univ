@@ -107,3 +107,23 @@ BOARD_HAS_NO_REAL_SDCARD := true
 TW_NO_USB_STORAGE := true
 TW_EXTERNAL_STORAGE_PATH := "/usb-otg"
 TW_EXTERNAL_STORAGE_MOUNT_POINT := "usb-otg"
+
+
+#TWRP_EVENT_LOGGING := true
+
+
+#MultiROM config. MultiROM also uses parts of TWRP config
+BOARD_MKBOOTIMG_ARGS += --board mrom$(shell date -u +%Y%m%d)-01
+MR_INPUT_TYPE := type_b
+MR_INIT_DEVICES := device/htc/m7univ/multirom/mr_init_devices.c
+MR_DPI := xhdpi
+MR_DPI_FONT := 340
+MR_FSTAB := device/htc/m7univ/recovery.fstab
+MR_USE_MROM_FSTAB := true
+MR_DEVICE_VARIANTS := m7 m7u m7ul m7gsm m7wlv m7wls
+MR_DEVICE_HOOKS := device/htc/m7univ/multirom/mr_hooks.c
+MR_DEVICE_HOOKS_VER := 4
+MR_KEXEC_MEM_MIN := 0x85000000
+###MR_ENCRYPTION := true
+###MR_ENCRYPTION_SETUP_SCRIPT := device/htc/m7univ/multirom/mr_cp_crypto.sh
+
