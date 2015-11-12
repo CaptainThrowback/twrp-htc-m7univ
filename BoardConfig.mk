@@ -45,11 +45,13 @@ BOARD_MKBOOTIMG_ARGS := --ramdisk_offset 0x01800000
 #TARGET_KERNEL_CONFIG := m7_defconfig
 #TARGET_KERNEL_SOURCE := kernel/htc/msm8960
 ### switch back to:
-TARGET_KERNEL_CONFIG := cyanogenmod_m7_defconfig
+#TARGET_KERNEL_CONFIG := cyanogenmod_m7_defconfig
+TARGET_KERNEL_CONFIG := nkk71_m7_defconfig
 TARGET_KERNEL_SOURCE := kernel/htc/cm_android_kernel_htc_m7
 ### to fix the USB-OTG not being initilazied properly.
-### PS: if needed change cyanogenmod_m7_defconfig
-###     to CONFIG_FRAME_WARN=2048 instead of 1024
+### PS: nkk71_m7_defconfig
+###     has F2FS enabled
+###     and changed CONFIG_FRAME_WARN=2048 instead of 1024 (due to build warning/error)
 
 
 # QCOM hardware
@@ -72,6 +74,7 @@ TARGET_POWERHAL_VARIANT := qcom
 
 # Filesystem
 TARGET_USERIMAGES_USE_EXT4 := true
+TARGET_USERIMAGES_USE_F2FS := true
 BOARD_BOOTIMAGE_PARTITION_SIZE := 16777216
 BOARD_RECOVERYIMAGE_PARTITION_SIZE := 16776704
 BOARD_SYSTEMIMAGE_PARTITION_SIZE := 1946156032
@@ -126,7 +129,7 @@ MR_INPUT_TYPE := type_b
 MR_INIT_DEVICES := device/htc/m7univ/multirom/mr_init_devices.c
 MR_DPI := xhdpi
 MR_DPI_FONT := 340
-MR_FSTAB := device/htc/m7univ/recovery.fstab
+MR_FSTAB := device/htc/m7univ/multirom/mrom_m7.fstab
 MR_USE_MROM_FSTAB := true
 MR_DEVICE_VARIANTS := m7 m7u m7ul m7gsm m7wlv m7wls
 MR_DEVICE_HOOKS := device/htc/m7univ/multirom/mr_hooks.c
