@@ -32,7 +32,9 @@ on boot
     setprop recovery.perf.mode 0
     start chargeled
 
-on charger
+on init
+    stop adbd
+    stop recovery
     start choice_fn
     start detect_key
     start offmode_charging

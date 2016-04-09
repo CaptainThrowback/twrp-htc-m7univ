@@ -42,16 +42,18 @@ BOARD_KERNEL_CMDLINE := console=ttyHSL0,115200,n8 androidboot.hardware=qcom user
 BOARD_KERNEL_PAGESIZE := 2048
 BOARD_MKBOOTIMG_ARGS := --ramdisk_offset 0x01800000
 
-#TARGET_KERNEL_CONFIG := m7_defconfig
-#TARGET_KERNEL_SOURCE := kernel/htc/msm8960
-### switch back to:
-#TARGET_KERNEL_CONFIG := cyanogenmod_m7_defconfig
-TARGET_KERNEL_CONFIG := nkk71_m7_defconfig
-TARGET_KERNEL_SOURCE := kernel/htc/cm_android_kernel_htc_m7
+# Don't use kernel_htc_msm8960 because of OTG problem
+###TARGET_KERNEL_SOURCE := kernel/htc/msm8960
+###TARGET_KERNEL_CONFIG := m7_defconfig
+# switch back to:
+#TARGET_KERNEL_SOURCE := kernel/htc/m7
+#TARGET_KERNEL_CONFIG := m7_twrp_defconfig
 ### to fix the USB-OTG not being initilazied properly.
-### PS: nkk71_m7_defconfig
-###     has F2FS enabled
-###     and changed CONFIG_FRAME_WARN=2048 instead of 1024 (due to build warning/error)
+### PS: m7_twrp_defconfig has
+###     * F2FS enabled
+###     * changed CONFIG_FRAME_WARN=2048 instead of 1024 (due to build warning/error)
+###     * compression changed to LZMA
+TARGET_PREBUILT_KERNEL := device/htc/m7univ/prebuilt_kernel/kernel
 
 
 # QCOM hardware
@@ -101,30 +103,50 @@ BOARD_SEPOLICY_UNION += \
 
 # Vendor Init
 TARGET_UNIFIED_DEVICE := true
-TARGET_INIT_VENDOR_LIB := libinit_m7univ
+TARGET_INIT_VENDOR_LIB := libinit_msm
 TARGET_LIBINIT_DEFINES_FILE := device/htc/m7univ/init/init_m7univ.c
 
 # TWRP
 TW_THEME := portrait_hdpi
-TARGET_RECOVERY_PIXEL_FORMAT := "RGBX_8888"
-RECOVERY_GRAPHICS_USE_LINELENGTH := true
 TW_BRIGHTNESS_PATH := "/sys/class/leds/lcd-backlight/brightness"
 TW_INCLUDE_CRYPTO := true
 BOARD_RECOVERY_BLDRMSG_OFFSET := 2048
-RECOVERY_VARIANT := twrp
-TARGET_RECOVERY_DEVICE_MODULES := chargeled libinit_m7univ
+TARGET_RECOVERY_DEVICE_MODULES := chargeled 
 RECOVERY_SDCARD_ON_DATA := true
 BOARD_HAS_NO_REAL_SDCARD := true
 TW_NO_USB_STORAGE := true
 TW_EXTERNAL_STORAGE_PATH := "/usb-otg"
 TW_EXTERNAL_STORAGE_MOUNT_POINT := "usb-otg"
 
+TW_EXCLUDE_SUPERSU := true
 
-#TWRP_EVENT_LOGGING := true
+##==================================
+##  RECOVERY_VARIANT := multirom
+TARGET_RECOVERY_IS_MULTIROM := true
 
+MR_DEVICE_SPECIFIC_VERSION := b
+
+include device/htc/m7univ/multirom/MR_REC_VERSION.mk
+
+ifeq ($(MR_REC_VERSION),)
+MR_REC_VERSION := $(shell date -u +%Y%m%d)-01
+endif
+
+BOARD_MKBOOTIMG_ARGS += --board mrom$(MR_REC_VERSION)
+
+#still needed by multirom boot menu
+TARGET_RECOVERY_PIXEL_FORMAT := "RGBX_8888"
+RECOVERY_GRAPHICS_USE_LINELENGTH := true
+DEVICE_RESOLUTION := 1080x1920
+
+#Force populating /dev/block/platform/msm_sdcc.1/by-name
+#from the emmc, needed by devices like the HTC One M7
+MR_POPULATE_BY_NAME_PATH := "/dev/block/platform/msm_sdcc.1/by-name"
+
+#needed by devices using /dev/block/bootdevice/...
+MR_DEV_BLOCK_BOOTDEVICE := false
 
 #MultiROM config. MultiROM also uses parts of TWRP config
-BOARD_MKBOOTIMG_ARGS += --board mrom$(shell date -u +%Y%m%d)-01
 MR_INPUT_TYPE := type_b
 MR_INIT_DEVICES := device/htc/m7univ/multirom/mr_init_devices.c
 MR_DPI := xhdpi
@@ -137,4 +159,4 @@ MR_DEVICE_HOOKS_VER := 4
 MR_KEXEC_MEM_MIN := 0x85000000
 ###MR_ENCRYPTION := true
 ###MR_ENCRYPTION_SETUP_SCRIPT := device/htc/m7univ/multirom/mr_cp_crypto.sh
-
+MR_ALLOW_NKK71_NOKEXEC_WORKAROUND := true

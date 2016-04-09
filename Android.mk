@@ -1,4 +1,4 @@
-# Copyright (C) 2013 The CyanogenMod Project
+#
 # Copyright (C) 2012 The Android Open-Source Project
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -13,11 +13,10 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-ifeq ($(RECOVERY_VARIANT), twrp)
-ifeq ($(TARGET_DEVICE), m7univ)
+ifeq ($(TARGET_DEVICE),m7univ)
 
 LOCAL_PATH := $(call my-dir)
-include $(call first-makefiles-under, $(LOCAL_PATH))
+include $(call all-subdir-makefiles,$(LOCAL_PATH))
 
-endif
+include $(CLEAR_VARS)
 endif
