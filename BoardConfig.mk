@@ -126,7 +126,7 @@ TARGET_RECOVERY_IS_MULTIROM := true
 
 MR_DEVICE_SPECIFIC_VERSION := b
 
-include device/common/version_info/MR_REC_VERSION.mk
+include device/common/version-info/MR_REC_VERSION.mk
 
 ifeq ($(MR_REC_VERSION),)
 MR_REC_VERSION := $(shell date -u +%Y%m%d)-01
