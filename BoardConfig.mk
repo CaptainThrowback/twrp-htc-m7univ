@@ -124,7 +124,7 @@ TW_EXCLUDE_SUPERSU := true
 ##  RECOVERY_VARIANT := multirom
 TARGET_RECOVERY_IS_MULTIROM := true
 
-MR_DEVICE_SPECIFIC_VERSION := b
+#MR_DEVICE_SPECIFIC_VERSION := h ... let the build script deal with this!
 
 include device/common/version-info/MR_REC_VERSION.mk
 
@@ -159,4 +159,4 @@ MR_DEVICE_HOOKS_VER := 4
 MR_KEXEC_MEM_MIN := 0x85000000
 ###MR_ENCRYPTION := true
 ###MR_ENCRYPTION_SETUP_SCRIPT := device/htc/m7univ/multirom/mr_cp_crypto.sh
-MR_ALLOW_NKK71_NOKEXEC_WORKAROUND := true
+MR_NO_KEXEC := enabled
