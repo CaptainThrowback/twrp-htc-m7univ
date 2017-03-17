@@ -92,15 +92,6 @@ BOARD_VOLD_MAX_PARTITIONS := 38
 # Charge mode
 BOARD_CHARGING_MODE_BOOTING_LPM := /sys/htc_lpm/lpm_mode
 
-# SELinux
--include device/qcom/sepolicy/sepolicy.mk
-
-BOARD_SEPOLICY_DIRS += device/htc/m7univ/sepolicy
-
-BOARD_SEPOLICY_UNION += \
-    akmd.te \
-    cir_fw_update.te
-
 # Vendor Init
 TARGET_UNIFIED_DEVICE := true
 TARGET_INIT_VENDOR_LIB := libinit_msm
