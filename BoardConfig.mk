@@ -94,9 +94,9 @@ BOARD_VOLD_MAX_PARTITIONS := 38
 BOARD_CHARGING_MODE_BOOTING_LPM := /sys/htc_lpm/lpm_mode
 
 # Vendor Init
+BOARD_VENDOR := htc
+TARGET_INIT_VENDOR_LIB := libinit_$(TARGET_DEVICE)
 TARGET_UNIFIED_DEVICE := true
-TARGET_INIT_VENDOR_LIB := libinit_msm
-TARGET_LIBINIT_DEFINES_FILE := device/htc/m7univ/init/init_m7univ.c
 
 # TWRP
 TW_THEME := portrait_hdpi
@@ -110,44 +110,3 @@ TW_EXTERNAL_STORAGE_PATH := "/usb-otg"
 TW_EXTERNAL_STORAGE_MOUNT_POINT := "usb-otg"
 
 TW_EXCLUDE_SUPERSU := true
-
-##==================================
-##  RECOVERY_VARIANT := multirom
-TARGET_RECOVERY_IS_MULTIROM := true
-
-#MR_DEVICE_SPECIFIC_VERSION := h ... let the build script deal with this!
-
-include device/common/version-info/MR_REC_VERSION.mk
-
-ifeq ($(MR_REC_VERSION),)
-MR_REC_VERSION := $(shell date -u +%Y%m%d)-01
-endif
-
-BOARD_MKBOOTIMG_ARGS += --board mrom$(MR_REC_VERSION)
-
-#still needed by multirom boot menu
-TARGET_RECOVERY_PIXEL_FORMAT := "RGBX_8888"
-RECOVERY_GRAPHICS_USE_LINELENGTH := true
-DEVICE_RESOLUTION := 1080x1920
-
-#Force populating /dev/block/platform/msm_sdcc.1/by-name
-#from the emmc, needed by devices like the HTC One M7
-MR_POPULATE_BY_NAME_PATH := "/dev/block/platform/msm_sdcc.1/by-name"
-
-#needed by devices using /dev/block/bootdevice/...
-MR_DEV_BLOCK_BOOTDEVICE := false
-
-#MultiROM config. MultiROM also uses parts of TWRP config
-MR_INPUT_TYPE := type_b
-MR_INIT_DEVICES := device/htc/m7univ/multirom/mr_init_devices.c
-MR_DPI := xhdpi
-MR_DPI_FONT := 340
-MR_FSTAB := device/htc/m7univ/multirom/mrom_m7.fstab
-MR_USE_MROM_FSTAB := true
-MR_DEVICE_VARIANTS := m7 m7u m7ul m7gsm m7wlv m7wls
-MR_DEVICE_HOOKS := device/htc/m7univ/multirom/mr_hooks.c
-MR_DEVICE_HOOKS_VER := 4
-MR_KEXEC_MEM_MIN := 0x85000000
-###MR_ENCRYPTION := true
-###MR_ENCRYPTION_SETUP_SCRIPT := device/htc/m7univ/multirom/mr_cp_crypto.sh
-MR_NO_KEXEC := enabled
